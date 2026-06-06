@@ -1,0 +1,143 @@
+.resumen-content {
+  --background: #EFF6FF;
+}
+
+.resumen-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(29,78,216,0.12);
+  margin: 0 0 20px;
+
+  .mes-label {
+    font-size: 12px;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin: 0 0 16px;
+    font-weight: 600;
+  }
+}
+
+.totales-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 20px;
+
+  .total-item {
+    text-align: center;
+
+    .total-label {
+      font-size: 11px;
+      color: #94A3B8;
+      margin: 0 0 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .total-valor {
+      font-size: 16px;
+      font-weight: 800;
+      margin: 0;
+
+      &.rojo  { color: #EF4444; }
+      &.azul  { color: #1D4ED8; }
+      &.verde { color: #10B981; }
+    }
+  }
+
+  .divider-v {
+    width: 1px;
+    height: 36px;
+    background: #E2E8F0;
+  }
+}
+
+.progress-section {
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+
+    .progress-label { font-size: 12px; color: #64748B; margin: 0; }
+    .progress-pct   { font-size: 12px; font-weight: 700; color: #1D4ED8; margin: 0; }
+  }
+
+  .progress-bar-bg {
+    background: #E2E8F0;
+    border-radius: 99px;
+    height: 10px;
+    overflow: hidden;
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      transition: width 0.6s ease;
+    }
+  }
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1E293B;
+  margin: 0 0 12px;
+}
+
+.categorias-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 20px;
+
+  .categoria-card {
+    background: white;
+    border-radius: 14px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    opacity: 0; // AnimationController lo revela
+
+    .cat-icono-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      .cat-icono { font-size: 22px; }
+    }
+
+    .cat-info {
+      flex: 1;
+
+      .cat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+
+        .cat-nombre { font-size: 13px; font-weight: 600; color: #1E293B; margin: 0; }
+        .cat-monto  { font-size: 13px; font-weight: 700; color: #EF4444; margin: 0; }
+      }
+
+      .cat-bar-bg {
+        background: #F1F5F9;
+        border-radius: 99px;
+        height: 6px;
+        overflow: hidden;
+        margin-bottom: 4px;
+
+        .cat-bar-fill {
+          height: 100%;
+          border-radius: 99px;
+        }
+      }
+
+      .cat-pct { font-size: 10px; color: #94A3B8; margin: 0; }
+    }
+  }
+}

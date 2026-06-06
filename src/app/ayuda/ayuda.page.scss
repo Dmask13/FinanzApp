@@ -1,0 +1,61 @@
+.ayuda-content {
+  --background: #EFF6FF;
+}
+
+.ayuda-header {
+  text-align: center;
+  padding: 20px 0 20px;
+
+  .ayuda-icon-wrap {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #1D4ED8, #3B82F6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    box-shadow: 0 6px 20px rgba(59,130,246,0.35);
+
+    .ayuda-icon {
+      font-size: 34px;
+      color: white;
+    }
+  }
+
+  .ayuda-titulo {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1E293B;
+    opacity: 0; // AnimationController lo revela
+    margin: 0 0 4px;
+  }
+
+  p {
+    color: #64748B;
+    font-size: 13px;
+    margin: 0;
+  }
+}
+
+.respuesta-accordion {
+  padding: 16px;
+  font-size: 13px;
+  color: #374151;
+  background: white;
+  line-height: 1.7;
+  border-left: 3px solid #3B82F6;
+}
+
+ion-accordion-group {
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+
+ion-button {
+  --border-radius: 10px;
+  height: 50px;
+  font-weight: 700;
+}

@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="volver()">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Registrar Gasto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="registrar-content ion-padding">
+
+  <div class="page-header">
+    <div class="header-icon-wrap">
+      <ion-icon name="add-circle-outline" class="header-icon"></ion-icon>
+    </div>
+    <h2 class="page-title">Nuevo Gasto</h2>
+    <p class="page-sub">Completa los datos del gasto</p>
+  </div>
+
+  <ion-card class="form-card">
+    <ion-card-content>
+
+      <ion-item lines="full" class="input-item">
+        <ion-label position="floating">Descripción</ion-label>
+        <ion-input
+          id="input-descripcion"
+          type="text"
+          [(ngModel)]="descripcion"
+          placeholder="Ej: Supermercado Lider">
+        </ion-input>
+      </ion-item>
+
+      <ion-item lines="full" class="input-item">
+        <ion-label position="floating">Monto ($)</ion-label>
+        <ion-input
+          id="input-monto"
+          type="number"
+          [(ngModel)]="monto"
+          placeholder="Ej: 15000"
+          inputmode="numeric">
+        </ion-input>
+      </ion-item>
+
+      <div class="select-wrapper">
+        <ion-label class="select-label">Categoría</ion-label>
+        <ion-select
+          [(ngModel)]="categoria"
+          placeholder="Selecciona una categoría"
+          interface="alert"
+          class="select-control">
+          <ion-select-option *ngFor="let cat of categorias" [value]="cat">
+            {{ cat }}
+          </ion-select-option>
+        </ion-select>
+      </div>
+
+      <div class="date-wrapper">
+        <ion-label class="date-label">Fecha del gasto</ion-label>
+        <ion-datetime
+          presentation="date"
+          [(ngModel)]="fecha"
+          locale="es-CL"
+          [showDefaultButtons]="true"
+          doneText="Aceptar"
+          cancelText="Cancelar"
+          class="date-control">
+        </ion-datetime>
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+  <div class="botones-container">
+    <ion-button expand="block" fill="outline" color="medium" (click)="limpiar()">
+      <ion-icon name="trash-outline" slot="start"></ion-icon>
+      Limpiar
+    </ion-button>
+    <ion-button expand="block" color="primary" (click)="registrar()">
+      <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+      Registrar Gasto
+    </ion-button>
+  </div>
+
+</ion-content>

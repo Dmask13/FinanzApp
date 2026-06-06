@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="volver()">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Ayuda</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ayuda-content ion-padding">
+
+  <div class="ayuda-header">
+    <div class="ayuda-icon-wrap">
+      <ion-icon name="help-buoy-outline" class="ayuda-icon"></ion-icon>
+    </div>
+    <h2 class="ayuda-titulo">Centro de Ayuda</h2>
+    <p>Preguntas frecuentes sobre FinanzApp</p>
+  </div>
+
+  <ion-accordion-group>
+
+    <ion-accordion value="q1">
+      <ion-item slot="header" color="light">
+        <ion-icon name="add-circle-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>¿Cómo registro un gasto?</ion-label>
+      </ion-item>
+      <div slot="content" class="respuesta-accordion">
+        Desde el Home, toca el botón <strong>Registrar</strong>. Completa la descripción, monto, categoría y fecha del gasto. Luego presiona <strong>Registrar Gasto</strong> para guardarlo.
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="q2">
+      <ion-item slot="header" color="light">
+        <ion-icon name="bar-chart-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>¿Cómo veo el resumen mensual?</ion-label>
+      </ion-item>
+      <div slot="content" class="respuesta-accordion">
+        Desde el Home, toca <strong>Resumen</strong>. Ahí verás el total gastado, tu presupuesto mensual, el saldo restante y el desglose por categoría con barras de progreso.
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="q3">
+      <ion-item slot="header" color="light">
+        <ion-icon name="wallet-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>¿Cómo controlo mi presupuesto?</ion-label>
+      </ion-item>
+      <div slot="content" class="respuesta-accordion">
+        En la pantalla de Resumen verás una barra de progreso que indica qué porcentaje de tu presupuesto llevas gastado. Cuando supere el 80%, la barra cambia a rojo como alerta.
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="q4">
+      <ion-item slot="header" color="light">
+        <ion-icon name="log-out-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>¿Cómo cierro sesión?</ion-label>
+      </ion-item>
+      <div slot="content" class="respuesta-accordion">
+        Presiona el ícono de salida en la esquina superior derecha del Home. Serás redirigido a la pantalla de inicio de sesión.
+      </div>
+    </ion-accordion>
+
+  </ion-accordion-group>
+
+  <ion-button expand="block" color="primary" class="ion-margin-top" (click)="volver()">
+    <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+    Volver al Home
+  </ion-button>
+
+</ion-content>

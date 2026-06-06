@@ -1,0 +1,103 @@
+.registrar-content {
+  --background: #EFF6FF;
+}
+
+.page-header {
+  text-align: center;
+  padding: 24px 0 12px;
+
+  .header-icon-wrap {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #1D4ED8, #3B82F6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    box-shadow: 0 6px 20px rgba(59,130,246,0.35);
+
+    .header-icon {
+      font-size: 34px;
+      color: white;
+    }
+  }
+
+  .page-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1E293B;
+    margin: 0 0 4px;
+  }
+
+  .page-sub {
+    font-size: 13px;
+    color: #64748B;
+    margin: 0;
+  }
+}
+
+.form-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  margin: 8px 0;
+  opacity: 0; // AnimationController lo revela
+
+  .input-item {
+    --background: #F8FAFC;
+    margin-bottom: 8px;
+  }
+}
+
+.select-wrapper {
+  margin: 12px 0 8px;
+
+  .select-label {
+    font-size: 12px;
+    color: #64748B;
+    margin-bottom: 6px;
+    display: block;
+    padding-left: 4px;
+  }
+
+  .select-control {
+    width: 100%;
+    border: 1px solid #CBD5E1;
+    border-radius: 10px;
+    padding: 10px 12px;
+    background: #F8FAFC;
+  }
+}
+
+.date-wrapper {
+  margin: 12px 0 4px;
+
+  .date-label {
+    font-size: 12px;
+    color: #64748B;
+    margin-bottom: 6px;
+    display: block;
+    padding-left: 4px;
+  }
+
+  .date-control {
+    width: 100%;
+    border: 1px solid #CBD5E1;
+    border-radius: 10px;
+    background: #F8FAFC;
+  }
+}
+
+.botones-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+
+  ion-button {
+    --border-radius: 10px;
+    height: 50px;
+    font-weight: 700;
+    font-size: 15px;
+  }
+}

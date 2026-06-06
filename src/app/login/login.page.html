@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>FinanzApp</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding login-content">
+
+  <div class="logo-section">
+    <div class="logo-circle">
+      <ion-icon name="wallet-outline" class="logo-icon"></ion-icon>
+    </div>
+    <h1 class="app-name">FinanzApp</h1>
+    <p class="app-slogan">Control de tus gastos personales</p>
+  </div>
+
+  <div class="form-section">
+    <ion-item lines="full" class="input-item">
+      <ion-label position="floating">Usuario</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="usuario"
+        placeholder="Ej: juan01"
+        maxlength="8"
+        autocomplete="off">
+      </ion-input>
+    </ion-item>
+    <p class="hint-text">Alfanumérico, entre 3 y 8 caracteres</p>
+
+    <ion-item lines="full" class="input-item">
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input
+        type="password"
+        [(ngModel)]="password"
+        placeholder="****"
+        maxlength="4"
+        inputmode="numeric">
+      </ion-input>
+    </ion-item>
+    <p class="hint-text">4 dígitos numéricos</p>
+
+    <ion-button expand="block" class="btn-ingresar" (click)="ingresar()">
+      <ion-icon name="log-in-outline" slot="start"></ion-icon>
+      Ingresar
+    </ion-button>
+  </div>
+
+</ion-content>

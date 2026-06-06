@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="volver()">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Resumen Mensual</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="resumen-content ion-padding">
+
+  <!-- Card resumen general -->
+  <ion-card class="resumen-card">
+    <ion-card-content>
+      <p class="mes-label">{{ mesActual }}</p>
+
+      <div class="totales-row">
+        <div class="total-item">
+          <p class="total-label">Gastado</p>
+          <p class="total-valor rojo">{{ formatMonto(totalGastado) }}</p>
+        </div>
+        <div class="divider-v"></div>
+        <div class="total-item">
+          <p class="total-label">Presupuesto</p>
+          <p class="total-valor azul">{{ formatMonto(presupuesto) }}</p>
+        </div>
+        <div class="divider-v"></div>
+        <div class="total-item">
+          <p class="total-label">Restante</p>
+          <p class="total-valor verde">{{ formatMonto(saldoRestante) }}</p>
+        </div>
+      </div>
+
+      <!-- Barra de progreso -->
+      <div class="progress-section">
+        <div class="progress-header">
+          <span class="progress-label">Uso del presupuesto</span>
+          <span class="progress-pct">{{ porcentajeUsado }}%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill"
+               [style.width]="porcentajeUsado + '%'"
+               [style.background]="porcentajeUsado > 80 ? '#EF4444' : '#3B82F6'">
+          </div>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Desglose por categorías -->
+  <h3 class="section-title">Desglose por categoría</h3>
+
+  <div class="categorias-list">
+    <div *ngFor="let cat of categorias" class="categoria-card">
+      <div class="cat-icono-wrap" [style.background]="cat.color + '20'">
+        <ion-icon [name]="cat.icono" [style.color]="cat.color" class="cat-icono"></ion-icon>
+      </div>
+      <div class="cat-info">
+        <div class="cat-header">
+          <p class="cat-nombre">{{ cat.nombre }}</p>
+          <p class="cat-monto">{{ formatMonto(cat.monto) }}</p>
+        </div>
+        <div class="cat-bar-bg">
+          <div class="cat-bar-fill"
+               [style.width]="cat.porcentaje + '%'"
+               [style.background]="cat.color">
+          </div>
+        </div>
+        <p class="cat-pct">{{ cat.porcentaje }}% del total</p>
+      </div>
+    </div>
+  </div>
+
+</ion-content>
