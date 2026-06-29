@@ -1,95 +1,68 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AnimationController } from '@ionic/angular';
-
-interface Gasto {
-  descripcion: string;
-  monto: number;
-  categoria: string;
-  icono: string;
-  fecha: string;
-}
+import { DBTaskService } from '../services/db-task.service';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
   usuarioLogin: string = '';
-  nombre: string = '';
+  segmentoActivo: string = 'misDatos';
 
-  // Gastos de ejemplo para el dashboard
-  gastosRecientes: Gasto[] = [
-    { descripcion: 'Supermercado', monto: 28500, categoria: 'Alimentación', icono: 'cart-outline', fecha: 'Hoy' },
-    { descripcion: 'Metro / Bus', monto: 4200, categoria: 'Transporte', icono: 'bus-outline', fecha: 'Hoy' },
-    { descripcion: 'Netflix', monto: 8990, categoria: 'Entretenimiento', icono: 'play-circle-outline', fecha: 'Ayer' },
-    { descripcion: 'Farmacia', monto: 12300, categoria: 'Salud', icono: 'medkit-outline', fecha: 'Ayer' },
-  ];
-
-  get totalMes(): number {
-    return this.gastosRecientes.reduce((sum, g) => sum + g.monto, 0);
-  }
-
-  constructor(private router: Router, private animationCtrl: AnimationController) {
+  constructor(
+    private router: Router,
+    private animationCtrl: AnimationController,
+    private db: DBTaskService,
+    private storage: StorageService
+  ) {
+    // Intentar capturar el usuario desde el state de navegación
     const nav = this.router.getCurrentNavigation();
     if (nav?.extras?.state) {
       this.usuarioLogin = nav.extras.state['usuario'] || '';
-      this.nombre = nav.extras.state['nombre'] || this.usuarioLogin;
+    }
+  }
+
+  async ngOnInit() {
+    // Si no vino por navegación, recuperarlo desde Storage
+    if (!this.usuarioLogin) {
+      await this.storage.init();
+      const sesion = await this.storage.get('sesion_activa');
+      if (sesion) this.usuarioLogin = sesion.user_name;
     }
   }
 
   ionViewDidEnter() {
-    // Animación 1: saldo total aparece con fade desde abajo
-    const saldoCard = document.querySelector('.saldo-card') as HTMLElement;
-    if (saldoCard) {
+    const header = document.querySelector('.home-header-section') as HTMLElement;
+    if (header) {
       this.animationCtrl.create()
-        .addElement(saldoCard)
-        .duration(700)
-        .iterations(1)
+        .addElement(header)
+        .duration(600)
         .keyframes([
-          { offset: 0, opacity: '0', transform: 'translateY(-24px)' },
-          { offset: 1, opacity: '1', transform: 'translateY(0px)' },
+          { offset: 0, opacity: '0', transform: 'translateY(-20px)' },
+          { offset: 1, opacity: '1', transform: 'translateY(0)' },
         ]).play();
     }
-
-    // Animación 2: cada item de gasto entra con slide desde la derecha
-    const items = document.querySelectorAll('.gasto-item');
-    items.forEach((el, i) => {
-      this.animationCtrl.create()
-        .addElement(el as HTMLElement)
-        .duration(400)
-        .delay(100 + i * 80)
-        .iterations(1)
-        .keyframes([
-          { offset: 0, opacity: '0', transform: 'translateX(30px)' },
-          { offset: 1, opacity: '1', transform: 'translateX(0px)' },
-        ]).play();
-    });
   }
 
-  formatMonto(monto: number): string {
-    return `$${monto.toLocaleString('es-CL')}`;
+  cambiarSegmento(event: any) {
+    this.segmentoActivo = event.detail.value;
   }
 
-  irARegistrar() {
-    this.router.navigate(['/perfil'], {
-      state: { usuario: this.usuarioLogin, nombre: this.nombre }
-    });
-  }
+  irARegistrar()  { this.router.navigate(['/perfil'],        { state: { usuario: this.usuarioLogin } }); }
+  irAResumen()    { this.router.navigate(['/configuracion']); }
+  irAApiDemo()    { this.router.navigate(['/api-demo']);      }
+  irAMapa()       { this.router.navigate(['/mapa']);          }
+  irACamara()     { this.router.navigate(['/camara']);        }
+  irAAyuda()      { this.router.navigate(['/ayuda']);         }
 
-  irAResumen() {
-    this.router.navigate(['/configuracion'], {
-      state: { gastos: this.gastosRecientes }
-    });
-  }
-
-  irAAyuda() {
-    this.router.navigate(['/ayuda']);
-  }
-
-  cerrarSesion() {
+  async cerrarSesion() {
+    await this.db.cerrarTodasSesiones();
+    await this.storage.remove('sesion_activa');
     this.router.navigate(['/login']);
   }
 }

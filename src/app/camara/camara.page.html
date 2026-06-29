@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="volver()">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Cámara</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="camara-content">
+
+  <!-- Input de archivo oculto (activa cámara en móvil) -->
+  <input
+    id="inputFoto"
+    type="file"
+    accept="image/*"
+    capture="environment"
+    style="display:none"
+    (change)="onFotoSeleccionada($event)"
+  />
+
+  <!-- Preview de foto tomada -->
+  <div class="preview-section">
+    <div class="preview-placeholder" *ngIf="!fotoActual" (click)="abrirCamara()">
+      <ion-icon name="camera-outline" class="cam-icon"></ion-icon>
+      <p>Toca para tomar una foto</p>
+    </div>
+    <img *ngIf="fotoActual" [src]="fotoActual" class="preview-img" />
+  </div>
+
+  <!-- Controles -->
+  <div class="ion-padding">
+    <ion-button expand="block" color="primary" (click)="abrirCamara()">
+      <ion-icon name="camera-outline" slot="start"></ion-icon>
+      {{ fotoActual ? 'Tomar otra foto' : 'Tomar foto' }}
+    </ion-button>
+
+    <div *ngIf="fotoActual">
+      <ion-item lines="full" style="margin-top:12px">
+        <ion-label position="floating">Descripción (opcional)</ion-label>
+        <ion-input type="text" [(ngModel)]="descripcion" placeholder="Ej: Ticket de compra"></ion-input>
+      </ion-item>
+      <ion-button expand="block" color="success" (click)="guardarFoto()" style="margin-top:12px">
+        <ion-icon name="save-outline" slot="start"></ion-icon>
+        Guardar en Storage
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Galería de fotos guardadas -->
+  <div class="ion-padding" *ngIf="fotos.length > 0">
+    <h4 class="galeria-titulo">📁 Fotos guardadas ({{ fotos.length }})</h4>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6" *ngFor="let foto of fotos">
+          <ion-card class="foto-card">
+            <img [src]="foto.dataUrl" class="foto-thumb" />
+            <ion-card-content class="foto-info">
+              <p class="foto-desc">{{ foto.descripcion }}</p>
+              <p class="foto-fecha">{{ foto.fecha }}</p>
+              <ion-button fill="clear" color="danger" size="small" (click)="eliminarFoto(foto.id)">
+                <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div *ngIf="fotos.length === 0" class="empty-galeria">
+    <ion-icon name="images-outline"></ion-icon>
+    <p>No hay fotos guardadas aún</p>
+  </div>
+
+</ion-content>

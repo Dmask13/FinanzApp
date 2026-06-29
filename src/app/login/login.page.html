@@ -14,35 +14,69 @@
     <p class="app-slogan">Control de tus gastos personales</p>
   </div>
 
+  <!-- Tabs Login / Registro -->
+  <ion-segment [(ngModel)]="modoActivo" class="modo-segment">
+    <ion-segment-button value="login">
+      <ion-label>Iniciar Sesión</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="registro">
+      <ion-label>Registrarse</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
   <div class="form-section">
-    <ion-item lines="full" class="input-item">
-      <ion-label position="floating">Usuario</ion-label>
-      <ion-input
-        type="text"
-        [(ngModel)]="usuario"
-        placeholder="Ej: juan01"
-        maxlength="8"
-        autocomplete="off">
-      </ion-input>
-    </ion-item>
-    <p class="hint-text">Alfanumérico, entre 3 y 8 caracteres</p>
 
-    <ion-item lines="full" class="input-item">
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input
-        type="password"
-        [(ngModel)]="password"
-        placeholder="****"
-        maxlength="4"
-        inputmode="numeric">
-      </ion-input>
-    </ion-item>
-    <p class="hint-text">4 dígitos numéricos</p>
+    <!-- ── LOGIN ── -->
+    <div *ngIf="modoActivo === 'login'">
+      <ion-item lines="full" class="input-item">
+        <ion-label position="floating">Usuario</ion-label>
+        <ion-input type="text" [(ngModel)]="usuario" placeholder="Ej: juan01"
+          maxlength="8" autocomplete="off"></ion-input>
+      </ion-item>
+      <p class="hint-text">Alfanumérico, entre 3 y 8 caracteres</p>
 
-    <ion-button expand="block" class="btn-ingresar" (click)="ingresar()">
-      <ion-icon name="log-in-outline" slot="start"></ion-icon>
-      Ingresar
-    </ion-button>
+      <ion-item lines="full" class="input-item">
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input type="password" [(ngModel)]="password" placeholder="****"
+          maxlength="4" inputmode="numeric"></ion-input>
+      </ion-item>
+      <p class="hint-text">4 dígitos numéricos</p>
+
+      <ion-button expand="block" class="btn-ingresar" (click)="ingresar()" [disabled]="cargando">
+        <ion-spinner *ngIf="cargando" name="crescent" slot="start"></ion-spinner>
+        <ion-icon *ngIf="!cargando" name="log-in-outline" slot="start"></ion-icon>
+        {{ cargando ? 'Validando...' : 'Ingresar' }}
+      </ion-button>
+    </div>
+
+    <!-- ── REGISTRO ── -->
+    <div *ngIf="modoActivo === 'registro'">
+      <ion-item lines="full" class="input-item">
+        <ion-label position="floating">Nuevo usuario</ion-label>
+        <ion-input type="text" [(ngModel)]="nuevoUsuario" placeholder="Ej: maria99"
+          maxlength="8" autocomplete="off"></ion-input>
+      </ion-item>
+      <p class="hint-text">Alfanumérico, entre 3 y 8 caracteres</p>
+
+      <ion-item lines="full" class="input-item">
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input type="password" [(ngModel)]="nuevaPassword" placeholder="****"
+          maxlength="4" inputmode="numeric"></ion-input>
+      </ion-item>
+      <p class="hint-text">4 dígitos numéricos</p>
+
+      <ion-item lines="full" class="input-item">
+        <ion-label position="floating">Confirmar contraseña</ion-label>
+        <ion-input type="password" [(ngModel)]="confirmarPassword" placeholder="****"
+          maxlength="4" inputmode="numeric"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" class="btn-ingresar" color="success" (click)="registrarse()" [disabled]="cargando">
+        <ion-icon name="person-add-outline" slot="start"></ion-icon>
+        Registrarse
+      </ion-button>
+    </div>
+
   </div>
 
 </ion-content>

@@ -1,0 +1,64 @@
+<div class="comp-wrap">
+
+  <div class="comp-header">
+    <ion-icon name="briefcase-outline"></ion-icon>
+    <h3>Experiencia Laboral</h3>
+  </div>
+
+  <!-- Formulario -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Agregar experiencia</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="full">
+        <ion-label position="floating">Empresa *</ion-label>
+        <ion-input type="text" [(ngModel)]="form.empresa" placeholder="Ej: Google"></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="floating">Cargo *</ion-label>
+        <ion-input type="text" [(ngModel)]="form.cargo" placeholder="Ej: Desarrollador Web"></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="floating">Año inicio</ion-label>
+        <ion-input type="number" [(ngModel)]="form.anioInicio" min="1980" max="2099"></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label>¿Trabaja actualmente?</ion-label>
+        <ion-toggle [(ngModel)]="form.trabajaActualmente" slot="end" color="primary"></ion-toggle>
+      </ion-item>
+      <ion-item lines="full" *ngIf="!form.trabajaActualmente">
+        <ion-label position="floating">Año término</ion-label>
+        <ion-input type="number" [(ngModel)]="form.anioTermino" min="1980" max="2099"></ion-input>
+      </ion-item>
+      <ion-button expand="block" color="primary" (click)="agregar()" style="margin-top:14px">
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+        Agregar
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Lista -->
+  <p *ngIf="lista.length === 0" class="empty-txt">No hay experiencias registradas.</p>
+
+  <ion-card *ngFor="let exp of lista" class="item-card">
+    <ion-card-content>
+      <div class="item-row">
+        <div>
+          <strong>{{ exp.empresa }}</strong>
+          <p class="item-sub">{{ exp.cargo }}</p>
+          <p class="item-sub">
+            {{ exp.anioInicio }} –
+            <ion-badge [color]="exp.trabajaActualmente ? 'success' : 'medium'">
+              {{ exp.trabajaActualmente ? 'Presente' : exp.anioTermino }}
+            </ion-badge>
+          </p>
+        </div>
+        <ion-button fill="clear" color="danger" (click)="eliminar(exp.id!)">
+          <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+</div>

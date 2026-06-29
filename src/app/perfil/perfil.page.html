@@ -23,9 +23,8 @@
     <ion-card-content>
 
       <ion-item lines="full" class="input-item">
-        <ion-label position="floating">Descripción</ion-label>
+        <ion-label position="floating">Descripción *</ion-label>
         <ion-input
-          id="input-descripcion"
           type="text"
           [(ngModel)]="descripcion"
           placeholder="Ej: Supermercado Lider">
@@ -33,9 +32,8 @@
       </ion-item>
 
       <ion-item lines="full" class="input-item">
-        <ion-label position="floating">Monto ($)</ion-label>
+        <ion-label position="floating">Monto ($) *</ion-label>
         <ion-input
-          id="input-monto"
           type="number"
           [(ngModel)]="monto"
           placeholder="Ej: 15000"
@@ -43,31 +41,25 @@
         </ion-input>
       </ion-item>
 
-      <div class="select-wrapper">
-        <ion-label class="select-label">Categoría</ion-label>
+      <ion-item lines="full" class="input-item">
+        <ion-label position="floating">Categoría *</ion-label>
         <ion-select
           [(ngModel)]="categoria"
           placeholder="Selecciona una categoría"
-          interface="alert"
-          class="select-control">
+          interface="alert">
           <ion-select-option *ngFor="let cat of categorias" [value]="cat">
             {{ cat }}
           </ion-select-option>
         </ion-select>
-      </div>
+      </ion-item>
 
-      <div class="date-wrapper">
-        <ion-label class="date-label">Fecha del gasto</ion-label>
-        <ion-datetime
-          presentation="date"
-          [(ngModel)]="fecha"
-          locale="es-CL"
-          [showDefaultButtons]="true"
-          doneText="Aceptar"
-          cancelText="Cancelar"
-          class="date-control">
-        </ion-datetime>
-      </div>
+      <ion-item lines="full" class="input-item">
+        <ion-label position="floating">Fecha del gasto</ion-label>
+        <ion-input
+          type="date"
+          [(ngModel)]="fecha">
+        </ion-input>
+      </ion-item>
 
     </ion-card-content>
   </ion-card>

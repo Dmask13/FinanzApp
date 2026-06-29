@@ -1,166 +1,39 @@
-.home-content {
-  --background: #EFF6FF;
-}
+.home-content { --background: #f1f5f9; }
 
-.header-section {
-  background: linear-gradient(135deg, #1D4ED8, #3B82F6);
-  padding: 16px 20px 80px;
-
-  .saludo-sub {
-    color: rgba(255,255,255,0.75);
-    font-size: 13px;
-    margin: 0 0 2px;
-  }
-
-  .saludo-nombre {
-    color: white;
-    font-size: 22px;
-    font-weight: 700;
-    margin: 0;
-  }
-}
-
-.saldo-card {
-  background: white;
-  border-radius: 20px;
-  margin: -60px 16px 0;
+.home-header-section {
+  background: linear-gradient(135deg, #3B82F6, #1E40AF);
   padding: 24px 20px 20px;
-  box-shadow: 0 8px 30px rgba(29, 78, 216, 0.15);
-  opacity: 0; // AnimationController lo revela
-
-  .saldo-label {
-    font-size: 12px;
-    color: #64748B;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin: 0 0 6px;
-  }
-
-  .saldo-monto {
-    font-size: 36px;
-    font-weight: 800;
-    color: #1D4ED8;
-    margin: 0 0 2px;
-    letter-spacing: -1px;
-  }
-
-  .saldo-periodo {
-    font-size: 12px;
-    color: #94A3B8;
-    margin: 0 0 20px;
-  }
-
-  .accesos-rapidos {
-    display: flex;
-    gap: 12px;
-    justify-content: space-around;
-    border-top: 1px solid #F1F5F9;
-    padding-top: 16px;
-
-    .accion-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      background: #EFF6FF;
-      border: none;
-      border-radius: 12px;
-      padding: 12px 20px;
-      cursor: pointer;
-
-      ion-icon {
-        font-size: 24px;
-        color: #1D4ED8;
-      }
-
-      span {
-        font-size: 11px;
-        font-weight: 600;
-        color: #1D4ED8;
-      }
-    }
-  }
+  color: white;
 }
+.saludo-sub { margin: 0; font-size: 13px; opacity: 0.85; }
+.saludo-nombre { margin: 4px 0 18px; font-size: 22px; font-weight: 700; }
 
-.section-container {
-  padding: 20px 16px 16px;
-
-  .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-
-    .section-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #1E293B;
-      margin: 0;
-    }
-
-    .ver-todos {
-      font-size: 13px;
-      color: #3B82F6;
-      font-weight: 600;
-      cursor: pointer;
-    }
-  }
+.accesos-rapidos {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
 }
-
-.gastos-list {
+.accion-btn {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-
-  .gasto-item {
-    background: white;
-    border-radius: 14px;
-    padding: 14px 16px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    opacity: 0; // AnimationController lo revela
-
-    .gasto-icono-wrap {
-      width: 44px;
-      height: 44px;
-      background: #EFF6FF;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-
-      .gasto-icono {
-        font-size: 22px;
-        color: #3B82F6;
-      }
-    }
-
-    .gasto-info {
-      flex: 1;
-
-      .gasto-desc {
-        font-size: 14px;
-        font-weight: 600;
-        color: #1E293B;
-        margin: 0 0 2px;
-      }
-
-      .gasto-cat {
-        font-size: 11px;
-        color: #94A3B8;
-        margin: 0;
-      }
-    }
-
-    .gasto-monto {
-      font-size: 15px;
-      font-weight: 700;
-      color: #EF4444;
-      margin: 0;
-      white-space: nowrap;
-    }
-  }
+  align-items: center;
+  gap: 4px;
+  background: rgba(255,255,255,0.18);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 11px;
+  flex: 1;
+  ion-icon { font-size: 22px; }
 }
+.accion-btn:hover { background: rgba(255,255,255,0.28); }
+
+.home-segment {
+  --background: white;
+  border-bottom: 1px solid #E2E8F0;
+  padding: 4px 8px;
+}
+
+.segment-content { padding-top: 12px; }

@@ -1,0 +1,32 @@
+.camara-content { --background: #f1f5f9; }
+
+.preview-section {
+  width: 100%;
+  height: 260px;
+  background: #1E293B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.preview-placeholder {
+  display: flex; flex-direction: column; align-items: center;
+  color: rgba(255,255,255,0.5); cursor: pointer;
+  &:active { opacity: 0.7; }
+}
+.cam-icon { font-size: 72px; margin-bottom: 10px; }
+.preview-img { width: 100%; height: 100%; object-fit: cover; }
+
+.galeria-titulo { margin: 0 0 10px; font-size: 15px; font-weight: 700; color: #1E293B; }
+.foto-card { margin: 0; }
+.foto-thumb { width: 100%; height: 120px; object-fit: cover; }
+.foto-info { padding: 6px 8px 4px; }
+.foto-desc { margin: 0; font-size: 12px; font-weight: 600; color: #1E293B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.foto-fecha { margin: 2px 0 0; font-size: 10px; color: #94A3B8; }
+
+.empty-galeria {
+  display: flex; flex-direction: column; align-items: center;
+  color: #94A3B8; padding: 32px 0;
+  ion-icon { font-size: 52px; margin-bottom: 8px; }
+  p { margin: 0; font-size: 14px; }
+}

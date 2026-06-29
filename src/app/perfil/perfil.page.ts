@@ -1,6 +1,14 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, AnimationController } from '@ionic/angular';
+import { StorageService } from '../services/storage.service';
+
+interface Gasto {
+  descripcion: string;
+  monto: number;
+  categoria: string;
+  fecha: string;
+}
 
 @Component({
   selector: 'app-perfil',
@@ -9,10 +17,10 @@ import { AlertController, AnimationController } from '@ionic/angular';
 })
 export class PerfilPage {
 
-  descripcion: string = '';
-  monto: string = '';
-  categoria: string = '';
-  fecha: string = '';
+  descripcion = '';
+  monto = '';
+  categoria = '';
+  fecha = '';
 
   categorias: string[] = [
     'Alimentación', 'Transporte', 'Entretenimiento',
@@ -22,17 +30,15 @@ export class PerfilPage {
   constructor(
     private router: Router,
     private alertCtrl: AlertController,
-    private animationCtrl: AnimationController
+    private animationCtrl: AnimationController,
+    private storage: StorageService
   ) {}
 
   ionViewDidEnter() {
-    // Animación: el formulario entra con fade desde abajo
     const form = document.querySelector('.form-card') as HTMLElement;
     if (form) {
       this.animationCtrl.create()
-        .addElement(form)
-        .duration(600)
-        .iterations(1)
+        .addElement(form).duration(600).iterations(1)
         .keyframes([
           { offset: 0, opacity: '0', transform: 'translateY(30px)' },
           { offset: 1, opacity: '1', transform: 'translateY(0)' },
@@ -40,56 +46,38 @@ export class PerfilPage {
     }
   }
 
-  async limpiar() {
-    this.descripcion = '';
-    this.monto = '';
-    this.categoria = '';
-    this.fecha = '';
-
-    // Animación izquierda→derecha en los inputs al limpiar
-    const inputDesc   = document.querySelector('#input-descripcion') as HTMLElement;
-    const inputMonto  = document.querySelector('#input-monto') as HTMLElement;
-
-    const anims: Promise<void>[] = [];
-    [inputDesc, inputMonto].forEach(el => {
-      if (el) anims.push(
-        this.animationCtrl.create()
-          .addElement(el)
-          .duration(1000)
-          .iterations(1)
-          .keyframes([
-            { offset: 0,   transform: 'translateX(-40px)', opacity: '0.3' },
-            { offset: 0.6, transform: 'translateX(10px)',  opacity: '1'   },
-            { offset: 1,   transform: 'translateX(0px)',   opacity: '1'   },
-          ]).play()
-      );
-    });
-    await Promise.all(anims);
-  }
-
   async registrar() {
     if (!this.descripcion.trim() || !this.monto || !this.categoria) {
-      const alerta = await this.alertCtrl.create({
+      const a = await this.alertCtrl.create({
         header: 'Campos incompletos',
         message: 'Debes ingresar descripción, monto y categoría.',
         buttons: ['OK'],
       });
-      await alerta.present();
-      return;
+      await a.present(); return;
     }
 
-    const alerta = await this.alertCtrl.create({
-      header: '✅ Gasto registrado',
-      message: `${this.descripcion}\nMonto: $${parseInt(this.monto).toLocaleString('es-CL')}\nCategoría: ${this.categoria}`,
-      buttons: [{
-        text: 'Aceptar',
-        handler: () => { this.limpiar(); }
-      }],
+    // Guardar gasto en Storage (persistencia)
+    await this.storage.init();
+    const gastos: Gasto[] = (await this.storage.get('gastos_lista')) || [];
+    gastos.push({
+      descripcion: this.descripcion,
+      monto: parseInt(this.monto),
+      categoria: this.categoria,
+      fecha: this.fecha || new Date().toLocaleDateString('es-CL'),
     });
-    await alerta.present();
+    await this.storage.set('gastos_lista', gastos);
+
+    const a = await this.alertCtrl.create({
+      header: '✅ Gasto registrado',
+      message: `${this.descripcion} – $${parseInt(this.monto).toLocaleString('es-CL')} guardado en Storage.`,
+      buttons: [{ text: 'Aceptar', handler: () => { this.limpiar(); } }],
+    });
+    await a.present();
   }
 
-  volver() {
-    this.router.navigate(['/home']);
+  limpiar() {
+    this.descripcion = ''; this.monto = ''; this.categoria = ''; this.fecha = '';
   }
+
+  volver() { this.router.navigate(['/home']); }
 }

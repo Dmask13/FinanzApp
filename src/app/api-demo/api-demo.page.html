@@ -1,0 +1,140 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="volver()">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>API – JSONPlaceholder</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cargarPosts()">
+        <ion-icon name="refresh-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="api-content">
+
+  <!-- Banner sin conexión -->
+  <ion-card color="warning" *ngIf="sinConexion" class="offline-banner">
+    <ion-card-content>
+      <ion-icon name="cloud-offline-outline"></ion-icon>
+      <strong> Modo offline</strong> — Mostrando datos en caché (Storage).
+    </ion-card-content>
+  </ion-card>
+
+  <!-- ── CREATE ──────────────────────────────────────── -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="crud-title">
+        <ion-badge color="success">POST</ion-badge> Crear post
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="full">
+        <ion-label position="floating">Título</ion-label>
+        <ion-input [(ngModel)]="nuevoTitulo" type="text"></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="floating">Cuerpo</ion-label>
+        <ion-textarea [(ngModel)]="nuevoCuerpo" rows="2" auto-grow="true"></ion-textarea>
+      </ion-item>
+      <ion-button expand="block" color="success" (click)="crearPost()" style="margin-top:12px">
+        <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+        Crear (POST)
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- ── READ por ID ─────────────────────────────────── -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="crud-title">
+        <ion-badge color="primary">GET</ion-badge> Buscar por ID
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="search-row">
+        <ion-item lines="full" class="search-input">
+          <ion-label position="floating">ID del post</ion-label>
+          <ion-input type="number" [(ngModel)]="buscarId" min="1" max="100"></ion-input>
+        </ion-item>
+        <ion-button color="primary" (click)="buscarPorId()">
+          <ion-icon name="search-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+      <ion-card *ngIf="postEncontrado" class="found-card">
+        <ion-card-content>
+          <p class="found-id">#{{ postEncontrado.id }}</p>
+          <p class="found-title">{{ postEncontrado.title }}</p>
+          <p class="found-body">{{ postEncontrado.body }}</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- ── READ lista + UPDATE + DELETE ────────────────── -->
+  <div class="section-header ion-padding-horizontal">
+    <span class="crud-title">
+      <ion-badge color="primary">GET</ion-badge> Lista de posts
+    </span>
+    <span class="posts-count">{{ posts.length }} posts</span>
+  </div>
+
+  <ion-card *ngFor="let post of posts" class="post-card">
+    <ion-card-content>
+
+      <!-- Modo lectura -->
+      <div *ngIf="postEditando?.id !== post.id">
+        <div class="post-row">
+          <div class="post-info">
+            <span class="post-id">#{{ post.id }}</span>
+            <p class="post-title">{{ post.title }}</p>
+            <p class="post-body">{{ post.body }}</p>
+          </div>
+          <div class="post-actions">
+            <!-- EDIT -->
+            <ion-button fill="clear" color="warning" size="small" (click)="iniciarEdicion(post)">
+              <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+            <!-- DELETE -->
+            <ion-button fill="clear" color="danger" size="small" (click)="eliminarPost(post.id!)">
+              <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modo edición (PUT) -->
+      <div *ngIf="postEditando?.id === post.id" class="edit-mode">
+        <p class="edit-label"><ion-badge color="warning">PUT</ion-badge> Editando #{{ post.id }}</p>
+        <ion-item lines="full">
+          <ion-label position="floating">Título</ion-label>
+          <ion-input [(ngModel)]="editTitulo" type="text"></ion-input>
+        </ion-item>
+        <ion-item lines="full">
+          <ion-label position="floating">Cuerpo</ion-label>
+          <ion-textarea [(ngModel)]="editCuerpo" rows="2"></ion-textarea>
+        </ion-item>
+        <div class="edit-actions">
+          <ion-button fill="outline" color="medium" size="small" (click)="cancelarEdicion()">
+            Cancelar
+          </ion-button>
+          <ion-button color="warning" size="small" (click)="guardarEdicion()">
+            <ion-icon name="save-outline" slot="start"></ion-icon>
+            Guardar (PUT)
+          </ion-button>
+        </div>
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+  <div *ngIf="posts.length === 0 && !sinConexion" class="empty-state">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Cargando posts...</p>
+  </div>
+
+  <div style="height: 32px"></div>
+</ion-content>

@@ -1,0 +1,10 @@
+.comp-wrap { padding: 4px 0; }
+.comp-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+  ion-icon { font-size: 30px; color: var(--ion-color-primary); }
+  h3 { margin: 0; font-size: 18px; font-weight: 700; color: #1E293B; }
+}
+.success-msg {
+  display: flex; align-items: center; gap: 8px;
+  color: #10B981; font-weight: 600; padding: 8px 4px;
+  ion-icon { font-size: 20px; }
+}

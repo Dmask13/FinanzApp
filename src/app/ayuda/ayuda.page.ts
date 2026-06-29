@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AnimationController } from '@ionic/angular';
 
@@ -7,13 +7,9 @@ import { AnimationController } from '@ionic/angular';
   templateUrl: './ayuda.page.html',
   styleUrls: ['./ayuda.page.scss'],
 })
-export class AyudaPage implements OnInit {
-
-  preguntasAbiertas: boolean[] = [false, false, false];
+export class AyudaPage {
 
   constructor(private router: Router, private animationCtrl: AnimationController) {}
-
-  ngOnInit() {}
 
   ionViewDidEnter() {
     const titulo = document.querySelector('.ayuda-titulo') as HTMLElement;
@@ -21,20 +17,12 @@ export class AyudaPage implements OnInit {
       this.animationCtrl.create()
         .addElement(titulo)
         .duration(600)
-        .iterations(1)
         .keyframes([
           { offset: 0, opacity: '0', transform: 'scale(0.8)' },
           { offset: 1, opacity: '1', transform: 'scale(1)' },
-        ])
-        .play();
+        ]).play();
     }
   }
 
-  togglePregunta(index: number) {
-    this.preguntasAbiertas[index] = !this.preguntasAbiertas[index];
-  }
-
-  volver() {
-    this.router.navigate(['/home']);
-  }
+  volver() { this.router.navigate(['/home']); }
 }

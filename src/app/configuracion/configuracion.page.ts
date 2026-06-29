@@ -1,6 +1,14 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AnimationController } from '@ionic/angular';
+import { StorageService } from '../services/storage.service';
+
+interface Gasto {
+  descripcion: string;
+  monto: number;
+  categoria: string;
+  fecha: string;
+}
 
 interface ResumenCategoria {
   nombre: string;
@@ -10,6 +18,24 @@ interface ResumenCategoria {
   porcentaje: number;
 }
 
+const ICONOS: Record<string, string> = {
+  'Alimentación': 'cart-outline',
+  'Transporte': 'bus-outline',
+  'Entretenimiento': 'play-circle-outline',
+  'Salud': 'medkit-outline',
+  'Educación': 'school-outline',
+  'Ropa': 'shirt-outline',
+  'Hogar': 'home-outline',
+  'Otros': 'ellipsis-horizontal-outline',
+};
+
+const COLORES: Record<string, string> = {
+  'Alimentación': '#3B82F6', 'Transporte': '#8B5CF6',
+  'Entretenimiento': '#F59E0B', 'Salud': '#EF4444',
+  'Educación': '#06B6D4', 'Ropa': '#EC4899',
+  'Hogar': '#10B981', 'Otros': '#94A3B8',
+};
+
 @Component({
   selector: 'app-configuracion',
   templateUrl: './configuracion.page.html',
@@ -17,53 +43,67 @@ interface ResumenCategoria {
 })
 export class ConfiguracionPage {
 
-  mesActual = 'Junio 2025';
+  mesActual = new Date().toLocaleString('es-CL', { month: 'long', year: 'numeric' });
   presupuesto = 300000;
+  categorias: ResumenCategoria[] = [];
+  gastosDetalle: Gasto[] = [];
 
-  categorias: ResumenCategoria[] = [
-    { nombre: 'Alimentación',    monto: 85000,  icono: 'cart-outline',         color: '#3B82F6', porcentaje: 32 },
-    { nombre: 'Transporte',      monto: 42000,  icono: 'bus-outline',           color: '#8B5CF6', porcentaje: 16 },
-    { nombre: 'Entretenimiento', monto: 35000,  icono: 'play-circle-outline',   color: '#F59E0B', porcentaje: 13 },
-    { nombre: 'Salud',           monto: 28000,  icono: 'medkit-outline',        color: '#EF4444', porcentaje: 10 },
-    { nombre: 'Hogar',           monto: 54000,  icono: 'home-outline',          color: '#10B981', porcentaje: 20 },
-    { nombre: 'Otros',           monto: 24000,  icono: 'ellipsis-horizontal-outline', color: '#94A3B8', porcentaje: 9 },
-  ];
+  get totalGastado()    { return this.categorias.reduce((s, c) => s + c.monto, 0); }
+  get porcentajeUsado() { return this.presupuesto > 0 ? Math.min(Math.round((this.totalGastado / this.presupuesto) * 100), 100) : 0; }
+  get saldoRestante()   { return this.presupuesto - this.totalGastado; }
 
-  get totalGastado(): number {
-    return this.categorias.reduce((sum, c) => sum + c.monto, 0);
+  constructor(
+    private router: Router,
+    private animationCtrl: AnimationController,
+    private storage: StorageService
+  ) {}
+
+  // ionViewWillEnter: carga datos y LUEGO anima (evita race condition)
+  async ionViewWillEnter() {
+    await this.cargarGastos();
+    // Animar después de que el DOM se actualice con los datos cargados
+    setTimeout(() => this.animarCategorias(), 80);
   }
 
-  get porcentajeUsado(): number {
-    return Math.round((this.totalGastado / this.presupuesto) * 100);
+  async cargarGastos() {
+    await this.storage.init();
+    this.gastosDetalle = (await this.storage.get('gastos_lista')) || [];
+
+    const mapa: Record<string, number> = {};
+    this.gastosDetalle.forEach((g: Gasto) => {
+      mapa[g.categoria] = (mapa[g.categoria] || 0) + g.monto;
+    });
+
+    const total = Object.values(mapa).reduce((s, v) => s + v, 0) || 1;
+    this.categorias = Object.entries(mapa).map(([nombre, monto]) => ({
+      nombre, monto,
+      icono:  ICONOS[nombre]  || 'help-circle-outline',
+      color:  COLORES[nombre] || '#94A3B8',
+      porcentaje: Math.round((monto / total) * 100),
+    }));
+
+    // Ejemplo si no hay gastos registrados aún
+    if (this.categorias.length === 0) {
+      this.categorias = [
+        { nombre: 'Sin gastos', monto: 0, icono: 'wallet-outline', color: '#94A3B8', porcentaje: 0 }
+      ];
+    }
   }
 
-  get saldoRestante(): number {
-    return this.presupuesto - this.totalGastado;
-  }
-
-  constructor(private router: Router, private animationCtrl: AnimationController) {}
-
-  ionViewDidEnter() {
-    // Animación: cards de categorías entran en cascada de izquierda a derecha
+  animarCategorias() {
     const cards = document.querySelectorAll('.categoria-card');
     cards.forEach((el, i) => {
       this.animationCtrl.create()
         .addElement(el as HTMLElement)
-        .duration(450)
-        .delay(i * 80)
-        .iterations(1)
+        .duration(400)
+        .delay(i * 70)
         .keyframes([
-          { offset: 0, opacity: '0', transform: 'translateX(-30px)' },
-          { offset: 1, opacity: '1', transform: 'translateX(0px)' },
+          { offset: 0, opacity: '0', transform: 'translateX(-24px)' },
+          { offset: 1, opacity: '1', transform: 'translateX(0)' },
         ]).play();
     });
   }
 
-  formatMonto(monto: number): string {
-    return `$${monto.toLocaleString('es-CL')}`;
-  }
-
-  volver() {
-    this.router.navigate(['/home']);
-  }
+  formatMonto(monto: number) { return `$${monto.toLocaleString('es-CL')}`; }
+  volver() { this.router.navigate(['/home']); }
 }

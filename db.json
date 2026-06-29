@@ -1,0 +1,26 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "userId": 1,
+      "title": "Primer post de prueba",
+      "body": "Este es el cuerpo del primer post registrado en la base de datos local."
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "title": "Control de gastos personales",
+      "body": "FinanzApp permite registrar y controlar tus gastos mensuales de forma eficiente."
+    },
+    {
+      "id": 3,
+      "userId": 2,
+      "title": "Integración con API Rest",
+      "body": "La app consume servicios REST usando HttpClient de Angular con métodos GET, POST, PUT y DELETE."
+    }
+  ],
+  "users": [
+    { "id": 1, "name": "Admin", "username": "admin", "email": "admin@finanzapp.cl" },
+    { "id": 2, "name": "Juan Pérez", "username": "juan01", "email": "juan@finanzapp.cl" }
+  ]
+}

@@ -1,0 +1,56 @@
+<div class="comp-wrap">
+
+  <div class="comp-header">
+    <ion-icon name="ribbon-outline"></ion-icon>
+    <h3>Certificaciones</h3>
+  </div>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Agregar certificación</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="full">
+        <ion-label position="floating">Nombre del certificado *</ion-label>
+        <ion-input type="text" [(ngModel)]="form.nombreCertificado" placeholder="Ej: AWS Solutions Architect"></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="floating">Fecha de obtención *</ion-label>
+        <ion-input type="date" [(ngModel)]="form.fechaObtencion"></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label>¿El certificado vence?</ion-label>
+        <ion-toggle [(ngModel)]="form.tieneVencimiento" slot="end" color="warning"></ion-toggle>
+      </ion-item>
+      <ion-item lines="full" *ngIf="form.tieneVencimiento">
+        <ion-label position="floating">Fecha de vencimiento</ion-label>
+        <ion-input type="date" [(ngModel)]="form.fechaVencimiento"></ion-input>
+      </ion-item>
+      <ion-button expand="block" color="primary" (click)="agregar()" style="margin-top:14px">
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+        Agregar
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <p *ngIf="lista.length === 0" class="empty-txt">No hay certificaciones registradas.</p>
+
+  <ion-card *ngFor="let cert of lista" class="item-card">
+    <ion-card-content>
+      <div class="item-row">
+        <div>
+          <strong>{{ cert.nombreCertificado }}</strong>
+          <p class="item-sub">Obtenido: {{ cert.fechaObtencion }}</p>
+          <p class="item-sub" *ngIf="cert.tieneVencimiento">
+            Vence: <ion-badge color="warning">{{ cert.fechaVencimiento }}</ion-badge>
+          </p>
+          <ion-badge color="success" *ngIf="!cert.tieneVencimiento">Sin vencimiento</ion-badge>
+        </div>
+        <ion-button fill="clear" color="danger" (click)="eliminar(cert.id!)">
+          <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+</div>

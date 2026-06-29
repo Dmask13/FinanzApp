@@ -1,0 +1,9 @@
+.comp-wrap { padding: 4px 0; }
+.comp-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+  ion-icon { font-size: 30px; color: var(--ion-color-primary); }
+  h3 { margin: 0; font-size: 18px; font-weight: 700; color: #1E293B; }
+}
+.empty-txt { text-align: center; color: #94A3B8; margin: 20px 0; }
+.item-card { margin-top: 8px; }
+.item-row { display: flex; justify-content: space-between; align-items: flex-start; }
+.item-sub { margin: 2px 0; font-size: 13px; color: #64748B; }

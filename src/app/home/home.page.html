@@ -2,7 +2,19 @@
   <ion-toolbar color="primary">
     <ion-title>FinanzApp</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="cerrarSesion()">
+      <ion-button (click)="irAAyuda()" title="Ayuda">
+        <ion-icon name="help-circle-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="irAApiDemo()" title="API Demo">
+        <ion-icon name="cloud-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="irAMapa()" title="Mapa">
+        <ion-icon name="map-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="irACamara()" title="Cámara">
+        <ion-icon name="camera-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="cerrarSesion()" title="Cerrar sesión">
         <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -11,18 +23,12 @@
 
 <ion-content class="home-content">
 
-  <!-- Header saludo -->
-  <div class="header-section">
+  <!-- Saludo con animación -->
+  <div class="home-header-section">
     <p class="saludo-sub">Bienvenido de vuelta,</p>
     <h2 class="saludo-nombre">{{ usuarioLogin }} 👋</h2>
-  </div>
 
-  <!-- Card saldo del mes -->
-  <div class="saldo-card">
-    <p class="saldo-label">Gasto total del mes</p>
-    <h1 class="saldo-monto">{{ formatMonto(totalMes) }}</h1>
-    <p class="saldo-periodo">Junio 2025</p>
-
+    <!-- Accesos rápidos -->
     <div class="accesos-rapidos">
       <button class="accion-btn" (click)="irARegistrar()">
         <ion-icon name="add-circle-outline"></ion-icon>
@@ -32,6 +38,14 @@
         <ion-icon name="bar-chart-outline"></ion-icon>
         <span>Resumen</span>
       </button>
+      <button class="accion-btn" (click)="irAMapa()">
+        <ion-icon name="location-outline"></ion-icon>
+        <span>Mapa</span>
+      </button>
+      <button class="accion-btn" (click)="irACamara()">
+        <ion-icon name="camera-outline"></ion-icon>
+        <span>Cámara</span>
+      </button>
       <button class="accion-btn" (click)="irAAyuda()">
         <ion-icon name="help-circle-outline"></ion-icon>
         <span>Ayuda</span>
@@ -39,24 +53,31 @@
     </div>
   </div>
 
-  <!-- Gastos recientes -->
-  <div class="section-container">
-    <div class="section-header">
-      <h3 class="section-title">Gastos recientes</h3>
-      <span class="ver-todos" (click)="irAResumen()">Ver todos</span>
-    </div>
+  <!-- Segment con los 3 componentes (S4) -->
+  <ion-segment [value]="segmentoActivo" (ionChange)="cambiarSegmento($event)" class="home-segment">
+    <ion-segment-button value="misDatos">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Mis Datos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="experiencia">
+      <ion-icon name="briefcase-outline"></ion-icon>
+      <ion-label>Experiencia</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="certificaciones">
+      <ion-icon name="ribbon-outline"></ion-icon>
+      <ion-label>Certificados</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 
-    <div class="gastos-list">
-      <div *ngFor="let gasto of gastosRecientes" class="gasto-item">
-        <div class="gasto-icono-wrap">
-          <ion-icon [name]="gasto.icono" class="gasto-icono"></ion-icon>
-        </div>
-        <div class="gasto-info">
-          <p class="gasto-desc">{{ gasto.descripcion }}</p>
-          <p class="gasto-cat">{{ gasto.categoria }} · {{ gasto.fecha }}</p>
-        </div>
-        <p class="gasto-monto">{{ formatMonto(gasto.monto) }}</p>
-      </div>
+  <div class="segment-content ion-padding">
+    <div *ngIf="segmentoActivo === 'misDatos'">
+      <app-mis-datos></app-mis-datos>
+    </div>
+    <div *ngIf="segmentoActivo === 'experiencia'">
+      <app-experiencia-laboral></app-experiencia-laboral>
+    </div>
+    <div *ngIf="segmentoActivo === 'certificaciones'">
+      <app-certificaciones></app-certificaciones>
     </div>
   </div>
 
